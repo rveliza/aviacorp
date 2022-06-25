@@ -1,10 +1,15 @@
+if (process.env.MODE_ENV !== "production"){
+    require('dotenv').config();
+}
+
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const Trip = require("./models/trip");
 const { captureRejectionSymbol } = require("events");
 
-const dbUrl = "mongodb://localhost:27017/aviacorp"
+// const dbUrl = "mongodb://localhost:27017/aviacorp"
+const dbUrl = process.env.DB_URL;
 mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -26,7 +31,7 @@ app.get('/', (req, res) => {
 
 app.get('/newtrip', async (req, res) => {
     const trip = new Trip({
-        title: "Key West",
+        title: "Key West cloud",
         description: "EAT: ir a dejar pasajeros",
         location: "Key West"
     });
